@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-//import { SessionStorageService } from './session-storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
+import { PerfilUsuarioService } from './perfil-usuario.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,23 +9,29 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'hambre';
-  // ngOnInit(): void {
-  //   sessionStorage.setItem('clave', Math.floor(Math.random() * 1000000) + '');
-  // }
   ngOnInit(): void {
-    const user = 'user4';
+    //this.abrirDialog();//AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    const key = 'llave';
     let storedSession;
     //window.addEventListener('beforeunload', () => {
-      storedSession = localStorage.getItem(user);
+      storedSession = localStorage.getItem(key);
     //});
     if (storedSession!=null) {
-      sessionStorage.setItem(user, storedSession);
+      sessionStorage.setItem(key, storedSession);
     }else{
       const token = Math.floor(Math.random() * 1000).toString();
-      sessionStorage.setItem(user, token);
-      localStorage.setItem(user, token);
+      sessionStorage.setItem(key, token);
+      localStorage.setItem(key, token);
     }
   }
-  
-  //constructor(private sessionStorageService: SessionStorageService) {}
+  abrirDialog() {
+    console.log("creando nuevo usuario");
+    let dialogRef = this.dialog.open(PerfilUsuarioComponent);
+    dialogRef.afterClosed().subscribe(result => {sessionStorage.setItem("usuario",result);this.perfilUsuarioService.setUsuario(); });
+    
+    
+    
+   
+  }
+  constructor(public dialog: MatDialog,private perfilUsuarioService: PerfilUsuarioService,) {}
 }

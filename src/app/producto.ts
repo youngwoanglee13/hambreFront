@@ -4,4 +4,5 @@ export interface Producto {
     image: string;
     name: string;
     price: number;
-  }
+    liked: boolean;
+}

@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ProductoService {
   
-  private productoUrl = 'https://81b4-181-177-129-194.ngrok-free.app/';  // URL to web api
+  private productoUrl = 'https://6bab-2803-9400-3-5a4c-3cb8-5834-8438-9027.ngrok-free.app/';  // URL to web api
   constructor(private http: HttpClient) {
     
    }
@@ -30,9 +30,17 @@ export class ProductoService {
   }
   getNextProducto(): Observable<Producto> {
   //const url = `${this.productoUrl}dishes/1`;
-    //console.log(sessionStorage.getItem('user4'));
-    const url = `${this.productoUrl}sessions/${sessionStorage.getItem('user4')}/next_dish`;//?temporalmente producto 1
+    
+    const url = `${this.productoUrl}sessions/${sessionStorage.getItem('llave')}/next_dish`;
     const headers = new HttpHeaders({'ngrok-skip-browser-warning': 'true'});
+    console.log(url);
     return this.http.get<Producto>(url,{headers});
+  }
+  likeProducto(idProducto : number): Observable<JSON> {
+    const url = `${this.productoUrl}dishes/${idProducto}/like`;
+    const headers = new HttpHeaders({'ngrok-skip-browser-warning': 'true'});
+   // this.http.post(url, {headers}).subscribe();
+    return this.http.post<JSON>(url,{'username': sessionStorage.getItem('usuario')},{headers});
+
   }
 }
