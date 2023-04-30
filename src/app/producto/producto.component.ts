@@ -8,6 +8,13 @@ import { AppComponent } from '../app.component';//comunicacion entre componentes
   styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent {
+  showImage = true;
+  center: google.maps.LatLngLiteral = {lat:-17.392418, lng:-66.162191};
+  circleCenter: google.maps.LatLngLiteral = {lat:-17.392418, lng:-66.162191};
+  radius = 80;
+  zoom = 14;
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerPositions: google.maps.LatLngLiteral[] = [];
   @Input() producto?: Producto;
   productos: Producto[] = [];
   puntero: number = 0;
@@ -20,7 +27,8 @@ export class ProductoComponent {
     private appComponent: AppComponent,//comunicacion entre componentes
     
     //private location: Location
-  ) {}
+  ) {
+  }
   ngOnInit(): void {
     
 
@@ -41,8 +49,31 @@ export class ProductoComponent {
      this.puntero = 0;
   }
   getProducto(): void {
+    // do something after suscription
       this.productoService.getNextProducto()
-       .subscribe(producto => this.productos.push(producto));
+       .subscribe(producto => this.productos.push(producto)).
+        add(() => {
+          // this.center = {lat:this.productos[this.puntero].latitude, lng:this.productos[this.puntero].longitude};
+          console.log("lat: "+this.productos[this.puntero].latitude);
+          console.log("lng: "+this.productos[this.puntero].longitude);
+          console.log("name: "+this.productos[this.puntero].name);
+          // if markerPositions not empty, pop
+          if (this.markerPositions.length > 0) {
+            this.markerPositions.pop();
+          }
+          this.markerOptions = {
+            draggable: false,
+            label: {color: 'yellow', text: this.productos[this.puntero].restaurant},
+          };
+          this.markerPositions.push({lat:this.productos[this.puntero].latitude, lng:this.productos[this.puntero].longitude});
+          // this.center.lat = this.productos[this.puntero].latitude;
+          // this.center.lng = this.productos[this.puntero].longitude;
+          // this.center
+          // console.log("puntero: "+this.puntero);
+          // this.position.lat = this.productos[this.puntero].latitude;
+          // this.position.lng = this.productos[this.puntero].longitude;
+          // this.label.text = this.productos[this.puntero].name;
+        });
        this.puntero++;
   }
   likeProducto(): void {
@@ -63,6 +94,9 @@ export class ProductoComponent {
     }else if(opcion == "1"){
       
     }
+  }
+  toggleSection() {
+    this.showImage = !this.showImage;
   }
   
 }

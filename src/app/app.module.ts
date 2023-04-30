@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     FormsModule,
     MatProgressSpinnerModule,
+    GoogleMapsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,39 @@
 <button (click)="getProducto()">Siguiente</button>
 <button (click)="likeProducto()">Like</button>
+<button (click)="toggleSection()">
+    {{ showImage ? 'Show Map' : 'Show Image' }}
+</button>
 <h1>{{productos[puntero].name}}</h1>
 <h1>{{productos[puntero].description}}</h1>
-<img [src]="'data:image/png;base64,' + productos[puntero].image" alt="Imagen del producto">
+<img *ngIf="showImage" id="imagen" [src]="'data:image/png;base64,' + productos[puntero].image" alt="Imagen del producto">
 
+<google-map *ngIf="!showImage" height="850px"
+            width="500px"
+            [center]="center"
+            [zoom]="zoom">
+  <map-marker *ngFor="let markerPosition of markerPositions"
+                [position]="markerPosition"
+                [options]="markerOptions"></map-marker>
+    <map-circle [center]="circleCenter"
+    [radius]="radius"></map-circle>
+</google-map>
 
-
-
+<script>
+    const toggleBtn = document.getElementById('toggle-btn');
+    const imagen = document.getElementById('imagen');
+    const mapa = document.getElementById('mapa');
+    console.log("que rico es el cafe")
+    toggleBtn.addEventListener('click', function() {
+      if (imagen.style.display === 'none') {
+        console.log("adwfasfd")
+        imagen.style.display = 'block';
+        mapa.style.display = 'none';
+        toggleBtn.textContent = 'Mapa';
+      } else {
+        console.log("000000000")
+        imagen.style.display = 'none';
+        mapa.style.display = 'block';
+        toggleBtn.textContent = 'Imagen';
+      }
+    });
+  </script>
